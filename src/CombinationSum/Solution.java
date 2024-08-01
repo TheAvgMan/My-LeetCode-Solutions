@@ -24,12 +24,25 @@ class Solution {
             return;
         }
 
+        /*
+            In this version of combination sum, it is allowed for the number, in candidates array, that we
+            are standing on to be included several times in the current sum (and current list) until it
+            reaches the target number. Then the last recursive layer returns and the next value in the
+            iteration is exhausted and so on, until all iterations are exhausted in all the recursive layers
+            and the very first call returns.
+        */
+
         for (int i = startCandidatesIndex; i < candidates.length; i++) {
             if (currentSum + candidates[i] > target) continue;
 
             currentSum += candidates[i];
             currentList.add(candidates[i]);
 
+            /*
+                Due to the description in the comment above, that's why in the recursive call below we use
+                the value i as the startCandidatesIndex of the new recursive layer, instead of i+1 in the
+                combination sum 2 solution (the second version of this combination sum problem).
+            */
             exhaustStates(currentList, currentSum, i, solutions, candidates, target);
 
             currentSum -= candidates[i];
