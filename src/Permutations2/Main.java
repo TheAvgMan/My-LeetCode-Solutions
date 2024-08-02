@@ -7,7 +7,7 @@ class Main {
 
         System.out.println(solution.permute2(nums));
 
-        nums = new int[] {0,1};
+        nums = new int[] {1,1,2};
 
         System.out.println(solution.permute2(nums));
     }
