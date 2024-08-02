@@ -50,7 +50,8 @@ class Solution {
             /*
                Because the state array has now filled to the end, this means a solution has been reached,
                so we should add it to the solutions array. But LeetCode wanted it in the following format,
-               so we transform the current values in state array into string format then add them into solutions.
+               so we transform the current values in state array into string format then add them into
+               solutions. This formatting thing made our code performance way too slower than it should be.
             */
             List<String> tempList = new ArrayList<>();
             for (var number : state) {
