@@ -4,21 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Solution {
+    private List<String> solutions;
+    private StringBuilder parenthesisSB;
+    private int n;
+
     List<String> generateParenthesis(int n) {
-        List<String> solutions = new ArrayList<>();
+        solutions = new ArrayList<>();
+        parenthesisSB = new StringBuilder("(");
+        this.n = n;
 
         /*
             This function starts with one opening bracket and then traverses over a binary tree until
             all the possible valid formations of the n pairs of parenthesis are added to the solutions
             list.
         */
-        exhaustStates(n, solutions, new StringBuilder("("), 1, 0);
+        exhaustStates(1, 0);
 
         return solutions;
     }
 
-    private void exhaustStates(int n, List<String> solutions, StringBuilder parenthesisSB,
-                               int openingBracketCounter, int closingBracketCounter) {
+    private void exhaustStates(int openingBracketCounter, int closingBracketCounter) {
 
         if (closingBracketCounter == n) {
             solutions.add(parenthesisSB.toString());
@@ -48,15 +53,13 @@ class Solution {
 
         if (openingBracketCounter < n) {
             parenthesisSB.append('(');
-            exhaustStates(n, solutions, parenthesisSB,
-                    openingBracketCounter + 1, closingBracketCounter);
+            exhaustStates(openingBracketCounter + 1, closingBracketCounter);
             parenthesisSB.deleteCharAt(parenthesisSB.length() - 1);
         }
 
         if (closingBracketCounter < openingBracketCounter) {
             parenthesisSB.append(')');
-            exhaustStates(n, solutions, parenthesisSB,
-                    openingBracketCounter, closingBracketCounter + 1);
+            exhaustStates(openingBracketCounter, closingBracketCounter + 1);
             parenthesisSB.deleteCharAt(parenthesisSB.length() - 1);
         }
     }

@@ -5,7 +5,14 @@ import java.util.Arrays;
 import java.util.List;
 
 class Solution {
+    private List<List<String>> solutions;
+    private int[] state;
+    private int[] flagsOfCandidateValuesUsage;
+    private int n;
+
     List<List<String>> solveNQueens(int n) {
+        solutions = new ArrayList<>();
+        this.n = n;
 
         /*
            flagsOfCandidateValuesUsage is an array of length n that has a flag for each possible value
@@ -18,7 +25,7 @@ class Solution {
                 Of course, initially, all the columns are free of any queens, so the array is initialised
            to zero.
         */
-        int[] flagsOfCandidateValuesUsage = new int[n];
+        flagsOfCandidateValuesUsage = new int[this.n];
         Arrays.fill(flagsOfCandidateValuesUsage, 0);
 
         /*
@@ -28,22 +35,19 @@ class Solution {
             of each queen, while the indices are representing the row numbers.
                 Initially, this array is initialised to -1.
         */
-        int[] state = new int[n];
+        state = new int[this.n];
         Arrays.fill(state, -1);
-
-        List<List<String>> solutions = new ArrayList<>();
 
         /*
             position is the parameter holding the value of the current index in state array that is
             worked on during the current recursive call of exhaustStates.
         */
-        exhaustStates(0, n, flagsOfCandidateValuesUsage, state, solutions);
+        exhaustStates(0);
 
         return solutions;
     }
 
-    private void exhaustStates(int position, int n, int[] flagsOfCandidateValuesUsage,
-                        int[] state, List<List<String>> solutions) {
+    private void exhaustStates(int position) {
 
         if (position == n) {
 
@@ -95,7 +99,7 @@ class Solution {
             state[position] = value;
             flagsOfCandidateValuesUsage[value] = 1;
 
-            exhaustStates(position + 1, n, flagsOfCandidateValuesUsage, state, solutions);
+            exhaustStates(position + 1);
 
             /*
                 After returning from that recursion layer, we return the value of this position in

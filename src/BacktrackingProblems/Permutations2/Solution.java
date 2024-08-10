@@ -5,22 +5,28 @@ import java.util.Arrays;
 import java.util.List;
 
 class Solution {
-    List<List<Integer>> permute2(int[] nums) {
-        List<List<Integer>> solutions = new ArrayList<>();
+    private List<List<Integer>> solutions;
+    private List<Integer> currentList;
+    private int[] reservedIndices;
+    private int[] nums;
 
-        int[] reservedIndices = new int[nums.length];
+    List<List<Integer>> permute2(int[] nums) {
+        solutions = new ArrayList<>();
+        currentList = new ArrayList<>();
+        this.nums = nums;
+        reservedIndices = new int[this.nums.length];
+
         Arrays.fill(reservedIndices, 0);
 
         // As in combination sum 2 solution, this sorting step is EXTREMELY IMPORTANT
-        Arrays.sort(nums);
+        Arrays.sort(this.nums);
 
-        exhaustStates(new ArrayList<>(), reservedIndices, solutions, nums);
+        exhaustStates();
 
         return solutions;
     }
 
-    private void exhaustStates(List<Integer> currentList, int[] reservedIndices,
-                               List<List<Integer>> solutions, int[] nums) {
+    private void exhaustStates() {
 
         if (currentList.size() == nums.length) {
             solutions.add(
@@ -53,9 +59,7 @@ class Solution {
 
             reservedIndices[i] = 1;
             currentList.add(nums[i]);
-
-            exhaustStates(currentList, reservedIndices, solutions, nums);
-
+            exhaustStates();
             reservedIndices[i] = 0;
             currentList.remove(currentList.size() - 1);
         }

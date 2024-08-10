@@ -5,18 +5,23 @@ import java.util.Arrays;
 import java.util.List;
 
 class Solution {
+    private List<List<Integer>> solutions;
+    private List<Integer> currentList;
+    private int[] nums;
+
     List<List<Integer>> subsets2(int[] nums) {
-        List<List<Integer>> solutions = new ArrayList<>();
+        solutions = new ArrayList<>();
+        currentList = new ArrayList<>();
+        this.nums = nums;
 
-        Arrays.sort(nums);
+        Arrays.sort(this.nums);
 
-        exhaustStates(0, new ArrayList<>(), solutions, nums);
+        exhaustStates(0);
 
         return solutions;
     }
 
-    private void exhaustStates(int loopStartIndex, List<Integer> currentList,
-                               List<List<Integer>> solutions, int[] nums) {
+    private void exhaustStates(int loopStartIndex) {
 
         solutions.add(
                 new ArrayList<>(currentList)
@@ -32,7 +37,7 @@ class Solution {
             if (nums[i] == previousNumber) continue;
 
             currentList.add(nums[i]);
-            exhaustStates(i + 1, currentList, solutions, nums);
+            exhaustStates(i + 1);
             currentList.remove(currentList.size() - 1);
 
             previousNumber = nums[i];

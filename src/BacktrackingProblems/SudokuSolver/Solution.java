@@ -1,23 +1,26 @@
 package BacktrackingProblems.SudokuSolver;
 
 class Solution {
+    private char[][] board;
+    private boolean foundSolution;
 
     void solveSudoku(char[][] board) {
+        this.board = board;
+
         /*
-            A boolean array of one element is used instead of boolean variable so that it could be passed
-            by reference through the recursion layers until it hits the layer where the solution is found
-            and the value of this one-element boolean array is changed from false to true.
-                This technique shortens the loops when returning back to the previous recursion layers,
-            because the only one solution possible has already been found.
+            A boolean variable is used so that it shortens the loops when returning back to the
+            previous recursion layers, because the only one solution possible has already been found.
         */
-        boolean[] foundSolution = {false};
+        foundSolution = false;
+
         /*
             Obviously, we start solving the 2D Sudoku Board from the first cell which is at (0,0)
         */
-        exhaustStates(0, 0, board, foundSolution);
+        exhaustStates(0, 0);
     }
 
-    private void exhaustStates(int row, int col, char[][] board, boolean[] foundSolution) {
+    private void exhaustStates(int row, int col) {
+
         /*
             If the cell we are working at contains dot character (which means empty cell) then start trying
             out all the numbers from 1 to 9 and check for each of these values if it violates the rules when
@@ -26,7 +29,7 @@ class Solution {
         if (board[row][col] == '.') {
             outer:
             for (int value = 1; value <= 9; value++) {
-                if (foundSolution[0]) break;
+                if (foundSolution) break;
 
                 // Validating the cell value with the cell's column and row.
                 for (int i = 0; i <= 8; i++) {
@@ -61,21 +64,21 @@ class Solution {
                 */
                 board[row][col] = (char) (value + 48);
 
-                if (row == 8 && col == 8) foundSolution[0] = true;
+                if (row == 8 && col == 8) foundSolution = true;
                 else if (col == 8) {
-                    exhaustStates(row + 1, 0, board, foundSolution);
-                    if (!foundSolution[0]) board[row][col] = '.';
+                    exhaustStates(row + 1, 0);
+                    if (!foundSolution) board[row][col] = '.';
                 }
                 else {
-                    exhaustStates(row, col + 1, board, foundSolution);
-                    if (!foundSolution[0]) board[row][col] = '.';
+                    exhaustStates(row, col + 1);
+                    if (!foundSolution) board[row][col] = '.';
                 }
             }
         }
         else {
-            if (row == 8 && col == 8) foundSolution[0] = true;
-            else if (col == 8) exhaustStates(row + 1, 0, board, foundSolution);
-            else exhaustStates(row, col + 1, board, foundSolution);
+            if (row == 8 && col == 8) foundSolution = true;
+            else if (col == 8) exhaustStates(row + 1, 0);
+            else exhaustStates(row, col + 1);
         }
     }
 }

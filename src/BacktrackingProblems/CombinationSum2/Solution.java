@@ -5,21 +5,28 @@ import java.util.Arrays;
 import java.util.List;
 
 class Solution {
+    private List<List<Integer>> solutions;
+    private List<Integer> currentList;
+    private int[] candidates;
+    private int currentSum;
+    private int target;
+
     List<List<Integer>> combinationSum2(int[] candidates, int target) {
-        List<List<Integer>> solutions = new ArrayList<>();
+        solutions = new ArrayList<>();
+        currentList = new ArrayList<>();
+        this.candidates = candidates;
+        currentSum = 0;
+        this.target = target;
 
         // An EXTREMELY IMPORTANT STEP is this sorting of the candidates array before going into recursion.
-        Arrays.sort(candidates);
+        Arrays.sort(this.candidates);
 
-        exhaustStates(new ArrayList<>(), 0, 0, solutions, candidates, target);
+        exhaustStates(0);
 
         return solutions;
     }
 
-    private void exhaustStates(List<Integer> currentList, int currentSum,
-                               int startCandidatesIndex,
-                               List<List<Integer>> solutions,
-                               int[] candidates, int target) {
+    private void exhaustStates(int startCandidatesIndex) {
 
         if (currentSum == target) {
             solutions.add(
@@ -54,7 +61,7 @@ class Solution {
             currentSum += candidates[i];
             currentList.add(candidates[i]);
 
-            exhaustStates(currentList, currentSum, i + 1, solutions, candidates, target);
+            exhaustStates(i + 1);
 
             currentSum -= candidates[i];
             currentList.remove(currentList.size() - 1);

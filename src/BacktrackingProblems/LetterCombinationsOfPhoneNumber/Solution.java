@@ -4,10 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Solution {
-    List<String> letterCombinations(String digits) {
-        StringBuilder digitsSB = new StringBuilder(digits);
+    private List<String> combinations;
+    private StringBuilder currentCombination;
+    private StringBuilder digitsSB;
+    private char [][] mapNumbersToLetters;
 
-        List<String> combinations = new ArrayList<>();
+    List<String> letterCombinations(String digits) {
+        combinations = new ArrayList<>();
+        currentCombination = new StringBuilder();
+        digitsSB = new StringBuilder(digits);
 
         /*
             The below character 2D array acts as a map that maps numbers (in this case they are
@@ -17,7 +22,7 @@ class Solution {
             keypad).
         */
 
-        char [][] mapNumbersToLetters = {
+        mapNumbersToLetters = new char[][] {
                 {},
                 {},
                 {'a', 'b', 'c'},
@@ -30,7 +35,7 @@ class Solution {
                 {'w', 'x', 'y', 'z'}
         };
 
-        exhaustStates(digitsSB, new StringBuilder(), combinations, mapNumbersToLetters);
+        exhaustStates();
 
         /*
             If the combinations list returned empty, it would contain one character element which is
@@ -44,8 +49,7 @@ class Solution {
         return combinations;
     }
 
-    private void exhaustStates(StringBuilder digitsSB, StringBuilder currentCombination,
-                               List<String> combinations, char[][] mapNumbersToLetters) {
+    private void exhaustStates() {
 
         if (digitsSB.isEmpty()) {
             combinations.add(currentCombination.toString());
@@ -63,7 +67,7 @@ class Solution {
 
         for (var letter : mapNumbersToLetters[currentDigit - 48]) {
             currentCombination.append(letter);
-            exhaustStates(digitsSB, currentCombination, combinations, mapNumbersToLetters);
+            exhaustStates();
             currentCombination.deleteCharAt(currentCombination.length() - 1);
         }
 

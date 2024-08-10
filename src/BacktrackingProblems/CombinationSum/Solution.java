@@ -4,18 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Solution {
-    List<List<Integer>> combinationSum(int[] candidates, int target) {
-        List<List<Integer>> solutions = new ArrayList<>();
+    private List<List<Integer>> solutions;
+    private List<Integer> currentList;
+    private int[] candidates;
+    private int currentSum;
+    private int target;
 
-        exhaustStates(new ArrayList<>(), 0, 0, solutions, candidates, target);
+    List<List<Integer>> combinationSum(int[] candidates, int target) {
+        solutions = new ArrayList<>();
+        currentList = new ArrayList<>();
+        this.candidates = candidates;
+        currentSum = 0;
+        this.target = target;
+
+        exhaustStates(0);
 
         return solutions;
     }
 
-    private void exhaustStates(List<Integer> currentList, int currentSum,
-                               int startCandidatesIndex,
-                               List<List<Integer>> solutions,
-                               int[] candidates, int target) {
+    private void exhaustStates(int startCandidatesIndex) {
 
         if (currentSum == target) {
             solutions.add(
@@ -46,7 +53,7 @@ class Solution {
                 the value i as the startCandidatesIndex of the new recursive layer, instead of i+1 in the
                 combination sum 2 solution (the second version of this combination sum problem).
             */
-            exhaustStates(currentList, currentSum, i, solutions, candidates, target);
+            exhaustStates(i);
 
             currentSum -= candidates[i];
             currentList.remove(currentList.size() - 1);

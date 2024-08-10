@@ -4,15 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Solution {
-
-    private int n;
-    private StringBuilder binarySB;
     private List<Integer> solution;
+    private StringBuilder binarySB;
+    private int n;
 
     List<Integer> grayCode(int n) {
-        this.n = n;
-        binarySB = new StringBuilder();
         solution = new ArrayList<>();
+        binarySB = new StringBuilder();
+        this.n = n;
 
         exhaustStates(false);
 

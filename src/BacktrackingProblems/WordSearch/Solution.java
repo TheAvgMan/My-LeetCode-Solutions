@@ -3,58 +3,62 @@ package BacktrackingProblems.WordSearch;
 import java.util.Arrays;
 
 class Solution {
-    boolean exist(char[][] board, String word) {
-        boolean[] solutionFound = {false};
+    private boolean[][] reservedElements;
+    private boolean solutionFound;
+    private StringBuilder wordSB;
+    private char[][] board;
 
-        boolean[][] reservedElements = new boolean[board.length][board[0].length];
+    boolean exist(char[][] board, String word) {
+        solutionFound = false;
+        wordSB = new StringBuilder(word);
+        this.board = board;
+        reservedElements = new boolean[this.board.length][this.board[0].length];
+
         for (var row : reservedElements) {
             Arrays.fill(row, false);
         }
 
-        if (board.length == 1 && board[0].length == 1)
-            return ((Character) board[0][0]).toString().equals(word);
+        if (this.board.length == 1 && this.board[0].length == 1)
+            return ((Character) this.board[0][0]).toString().contentEquals(wordSB);
 
         outer:
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                if (solutionFound[0]) break outer;
-                if (word.charAt(0) != board[i][j]) continue;
+        for (int i = 0; i < this.board.length; i++) {
+            for (int j = 0; j < this.board[i].length; j++) {
+                if (solutionFound) break outer;
+                if (wordSB.charAt(0) != this.board[i][j]) continue;
 
-                exhaustStates(solutionFound, reservedElements, i, j, board, new StringBuilder(word));
+                exhaustStates(i, j);
             }
         }
 
-        return solutionFound[0];
+        return solutionFound;
     }
 
-    private void exhaustStates(boolean[] solutionFound, boolean[][] reservedElements,
-                               int row, int col,
-                               char[][] board, StringBuilder wordSB) {
+    private void exhaustStates(int row, int col) {
 
         if (wordSB.isEmpty()) {
-            solutionFound[0] = true;
+            solutionFound = true;
             return;
         }
 
         if (reservedElements[row][col]) return;
         if (board[row][col] != wordSB.charAt(0)) return;
 
-
         char currentCharacter = wordSB.charAt(0);
         wordSB.deleteCharAt(0);
         reservedElements[row][col] = true;
 
         if (col != board[row].length - 1)
-            exhaustStates(solutionFound, reservedElements, row, col + 1, board, wordSB);
+            exhaustStates(row, col + 1);
 
         if (row != board.length - 1)
-            exhaustStates(solutionFound, reservedElements, row + 1, col, board, wordSB);
+            exhaustStates(row + 1, col);
 
         if (col != 0)
-            exhaustStates(solutionFound, reservedElements, row, col - 1, board, wordSB);
+            exhaustStates(row, col - 1);
 
         if (row != 0)
-            exhaustStates(solutionFound, reservedElements, row - 1, col, board, wordSB);
+            exhaustStates(row - 1, col);
 
         wordSB.insert(0, currentCharacter);
         reservedElements[row][col] = false;

@@ -4,16 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Solution {
-    List<List<Integer>> subsets(int[] nums) {
-        List<List<Integer>> solutions = new ArrayList<>();
+    private List<List<Integer>> solutions;
+    private List<Integer> currentList;
+    private int[] nums;
 
-        exhaustStates(0, new ArrayList<>(), solutions, nums);
+    List<List<Integer>> subsets(int[] nums) {
+        solutions = new ArrayList<>();
+        currentList = new ArrayList<>();
+        this.nums = nums;
+
+        exhaustStates(0);
 
         return solutions;
     }
 
-    private void exhaustStates(int loopStartIndex, List<Integer> currentList,
-                               List<List<Integer>> solutions, int[] nums) {
+    private void exhaustStates(int loopStartIndex) {
 
         solutions.add(
                 new ArrayList<>(currentList)
@@ -21,7 +26,7 @@ class Solution {
 
         for (int i = loopStartIndex; i < nums.length; i++) {
             currentList.add(nums[i]);
-            exhaustStates(i + 1, currentList, solutions, nums);
+            exhaustStates(i + 1);
             currentList.remove(currentList.size() - 1);
         }
     }

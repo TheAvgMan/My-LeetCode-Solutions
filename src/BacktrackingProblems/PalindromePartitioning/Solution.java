@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Solution {
-
-    private int stringSize;
-    private String givenString;
     private List<List<String>> solutions;
     private List<String> currentList;
+    private String givenString;
+    private int stringSize;
 
     List<List<String>> partition(String s) {
         solutions = new ArrayList<>();
