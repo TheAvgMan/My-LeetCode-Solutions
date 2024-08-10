@@ -7,16 +7,16 @@ import java.util.List;
 class Solution {
     private List<List<Integer>> solutions;
     private List<Integer> currentList;
-    private int[] reservedIndices;
+    private boolean[] reservedIndices;
     private int[] nums;
 
     List<List<Integer>> permute(int[] nums) {
         solutions = new ArrayList<>();
         currentList = new ArrayList<>();
         this.nums = nums;
-        reservedIndices = new int[this.nums.length];
+        reservedIndices = new boolean[this.nums.length];
 
-        Arrays.fill(reservedIndices, 0);
+        Arrays.fill(reservedIndices, false);
 
         exhaustStates();
 
@@ -33,12 +33,12 @@ class Solution {
         }
 
         for (int i = 0; i < nums.length; i++) {
-            if (reservedIndices[i] == 1) continue;
+            if (reservedIndices[i]) continue;
 
-            reservedIndices[i] = 1;
+            reservedIndices[i] = true;
             currentList.add(nums[i]);
             exhaustStates();
-            reservedIndices[i] = 0;
+            reservedIndices[i] = false;
             currentList.remove(currentList.size() - 1);
         }
     }

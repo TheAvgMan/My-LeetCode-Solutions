@@ -7,7 +7,7 @@ import java.util.List;
 class Solution {
     private List<List<String>> solutions;
     private int[] state;
-    private int[] flagsOfCandidateValuesUsage;
+    private boolean[] flagsOfCandidateValuesUsage;
     private int n;
 
     List<List<String>> solveNQueens(int n) {
@@ -25,8 +25,8 @@ class Solution {
                 Of course, initially, all the columns are free of any queens, so the array is initialised
            to zero.
         */
-        flagsOfCandidateValuesUsage = new int[this.n];
-        Arrays.fill(flagsOfCandidateValuesUsage, 0);
+        flagsOfCandidateValuesUsage = new boolean[this.n];
+        Arrays.fill(flagsOfCandidateValuesUsage, false);
 
         /*
             state is the array, of size n, representing the solution at a certain stage of trial.
@@ -74,7 +74,7 @@ class Solution {
         for (int value = 0; value < n; value++) {
 
             // We check if this column number is reserved / already used in a higher recursion layer or not.
-            if (flagsOfCandidateValuesUsage[value] == 1) continue;
+            if (flagsOfCandidateValuesUsage[value]) continue;
 
             /*
                 After ensuring that this current column number is free, we check that its difference with
@@ -97,7 +97,7 @@ class Solution {
                 we make the recursive call, to go into another recursion layer to repeat all of this.
             */
             state[position] = value;
-            flagsOfCandidateValuesUsage[value] = 1;
+            flagsOfCandidateValuesUsage[value] = true;
 
             exhaustStates(position + 1);
 
@@ -107,7 +107,7 @@ class Solution {
                 free now.
             */
             state[position] = -1;
-            flagsOfCandidateValuesUsage[value] = 0;
+            flagsOfCandidateValuesUsage[value] = false;
         }
     }
 }

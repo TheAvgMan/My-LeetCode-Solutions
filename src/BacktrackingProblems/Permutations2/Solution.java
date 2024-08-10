@@ -7,16 +7,16 @@ import java.util.List;
 class Solution {
     private List<List<Integer>> solutions;
     private List<Integer> currentList;
-    private int[] reservedIndices;
+    private boolean[] reservedIndices;
     private int[] nums;
 
     List<List<Integer>> permute2(int[] nums) {
         solutions = new ArrayList<>();
         currentList = new ArrayList<>();
         this.nums = nums;
-        reservedIndices = new int[this.nums.length];
+        reservedIndices = new boolean[this.nums.length];
 
-        Arrays.fill(reservedIndices, 0);
+        Arrays.fill(reservedIndices, false);
 
         // As in combination sum 2 solution, this sorting step is EXTREMELY IMPORTANT
         Arrays.sort(this.nums);
@@ -36,7 +36,7 @@ class Solution {
         }
 
         for (int i = 0; i < nums.length; i++) {
-            if (reservedIndices[i] == 1) continue;
+            if (reservedIndices[i]) continue;
 
             /*
                 In this loop, we iterate over the whole nums array in each recursive layer to check what
@@ -55,12 +55,12 @@ class Solution {
             */
 
             if (i != 0)
-                if (nums[i] == nums[i-1] && reservedIndices[i-1] == 0) continue;
+                if (nums[i] == nums[i-1] && !reservedIndices[i-1]) continue;
 
-            reservedIndices[i] = 1;
+            reservedIndices[i] = true;
             currentList.add(nums[i]);
             exhaustStates();
-            reservedIndices[i] = 0;
+            reservedIndices[i] = false;
             currentList.remove(currentList.size() - 1);
         }
     }
