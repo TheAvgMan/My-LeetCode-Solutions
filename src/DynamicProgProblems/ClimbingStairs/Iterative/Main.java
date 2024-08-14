@@ -1,4 +1,4 @@
-package DynamicProgProblems.ClimbingStairsRecursive;
+package DynamicProgProblems.ClimbingStairs.Iterative;
 
 class Main {
     public static void main(String[] args) {

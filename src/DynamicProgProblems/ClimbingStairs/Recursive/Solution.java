@@ -1,4 +1,4 @@
-package DynamicProgProblems.ClimbingStairsRecursive;
+package DynamicProgProblems.ClimbingStairs.Recursive;
 
 import java.util.Arrays;
 

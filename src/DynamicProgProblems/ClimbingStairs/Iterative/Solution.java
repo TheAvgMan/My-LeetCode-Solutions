@@ -1,4 +1,4 @@
-package DynamicProgProblems.ClimbingStairsIterative;
+package DynamicProgProblems.ClimbingStairs.Iterative;
 
 class Solution {
     int climbStairs(int n) {
