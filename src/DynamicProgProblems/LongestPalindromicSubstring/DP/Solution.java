@@ -12,11 +12,7 @@ class Solution {
 
         int[] result = indicesOfLongestPalindromicSubstring();
 
-        StringBuilder resultSubstring = new StringBuilder();
-        for (int i = result[0]; i <= result[1]; i++)
-            resultSubstring.append(this.s.charAt(i));
-
-        return resultSubstring.toString();
+        return this.s.substring(result[0], result[1] + 1);
     }
 
     private int[] indicesOfLongestPalindromicSubstring() {
